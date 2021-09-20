@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
     def show 
-       user = User.find_by(params[:id])
+        # byebug
+       user = User.find_by(id: session[:user_id])
         render json: user, status: 200
     end
 
