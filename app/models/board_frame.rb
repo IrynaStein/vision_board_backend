@@ -1,0 +1,2 @@
+class BoardFrame < ApplicationRecord
+end
