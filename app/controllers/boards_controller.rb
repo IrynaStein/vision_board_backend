@@ -2,11 +2,11 @@ class BoardsController < ApplicationController
 
   def create
     user = User.find_by(id: session[:user_id])
-    stickers = Sticker.where("category=?", params[:category])
-    board = user.boards.new(board_params)
-    board.quote = Quote.where("category=?", params[:category]).first
-    board.name = 'Untitled-board-' + Date.today.to_s + rand(100..999).to_s if params[:name].nil?
-    board.save if board.valid?
+    stickers = Sticker.where("category=?", board_params[:category])
+    board = user.boards.build(board_params)
+    board.set_name(board_params)
+    board.set_quote(board_params)
+    board.save!
     render json: {board: board, assets: {stickers: stickers}}, status: 200
   end
 
