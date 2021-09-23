@@ -13,7 +13,8 @@ class Board < ApplicationRecord
         self.name = 'Untitled-board-' + Date.today.to_s + rand(100..999).to_s if board_params[:name].nil?
     end
 
-    def set_quote(board_params)
-        self.quote = Quote.where("category=?", board_params[:category]).first
-    end
+    #update this logic to reflect the quote coming in via params
+    # def set_quote(board_params)
+    #     self.quote = Quote.where("category=?", board_params[:category]).first
+    # end
 end
