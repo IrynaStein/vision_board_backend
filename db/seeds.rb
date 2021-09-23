@@ -36,9 +36,10 @@ s7 = Sticker.create(name: "anchor", category: "water", image_url: "https://live.
 
 puts "...quotes..."
 
-q1 = Quote.create(paragraph: "Lifes' roughset storms prove the strength of our anchors", category: "water")
-q2 = Quote.create(paragraph: "The cure for anything is saltwater – sweat, tears, or the sea", category: "water")
-q3 = Quote.create(paragraph: "Waves are not as dangerous as fear of waves", category: "water")
+q1 = Quote.create(paragraph: "Lifes' roughset storms prove the strength of our anchors", category: "water", init: true)
+q2 = Quote.create(paragraph: "The cure for anything is saltwater – sweat, tears, or the sea", category: "water", init: true)
+q3 = Quote.create(paragraph: "Waves are not as dangerous as fear of waves", category: "water", init: true)
+q1a = Quote.create(paragraph: "Test quote for false init attribute", category: "water", init: false)
 
 puts "SEEDING EARTH ASSETS..."
 puts "...seeding stickers..."
@@ -47,10 +48,10 @@ s8 = Sticker.create(name: "nautical_star", category: "earth", image_url: "https:
 s9 = Sticker.create(name: "anchor", category: "earth", image_url: "https://live.staticflickr.com/65535/51500874015_becbbe1998_o.png", coordinates: "")
 
 puts "...quotes..."
-q4 = Quote.create(paragraph: "Climb mountains not so the world can see you, but so you can see the world", category: "earth")
-q5 = Quote.create(paragraph: "The best view comes after the hardest climb", category: "earth")
-q6 = Quote.create(paragraph: "Every mountain top is within reach if you just keep climbing", category: "earth")
-
+q4 = Quote.create(paragraph: "Climb mountains not so the world can see you, but so you can see the world", category: "earth", init: true)
+q5 = Quote.create(paragraph: "The best view comes after the hardest climb", category: "earth", init: true)
+q6 = Quote.create(paragraph: "Every mountain top is within reach if you just keep climbing", category: "earth", init: true)
+q4a = Quote.create(paragraph: "Test quote for false init attribute", category: "earth", init: false)
 
 
 puts "Done! Success"
