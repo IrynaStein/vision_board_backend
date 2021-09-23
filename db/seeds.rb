@@ -7,12 +7,18 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.destroy_all
+Board.destroy_all
+Quote.destroy_all
+Sticker.destroy_all
+Frame.destroy_all
+Post.destroy_all
 
-puts "Seeding users..."
+puts "SEEDING USERS..."
 
 user1 = User.create(name: "Iryna", username: "iryna", password: "admin123", password_confirmation: "admin123", email: "isophiestein@gmail.com")
 
-puts "Seeding water stickers... "
+puts "SEEDING WATER ASSETS..."
+puts "...stickers... "
 
 s1 = Sticker.create(name: "water_symbol", category: "water", image_url: "https://live.staticflickr.com/65535/51500171763_5dc0abac52_o.png", coordinates: "")
 
@@ -27,5 +33,24 @@ s5 = Sticker.create(name: "steer", category: "water", image_url: "https://live.s
 s6 = Sticker.create(name: "nautical_star", category: "water", image_url: "https://live.staticflickr.com/65535/51500874000_c9cae1a074_o.png", coordinates: "")
 
 s7 = Sticker.create(name: "anchor", category: "water", image_url: "https://live.staticflickr.com/65535/51500874015_becbbe1998_o.png", coordinates: "")
+
+puts "...quotes..."
+
+q1 = Quote.create(paragraph: "Lifes' roughset storms prove the strength of our anchors", category: "water")
+q2 = Quote.create(paragraph: "The cure for anything is saltwater – sweat, tears, or the sea", category: "water")
+q3 = Quote.create(paragraph: "Waves are not as dangerous as fear of waves", category: "water")
+
+puts "SEEDING EARTH ASSETS..."
+puts "...seeding stickers..."
+s8 = Sticker.create(name: "nautical_star", category: "earth", image_url: "https://live.staticflickr.com/65535/51500874000_c9cae1a074_o.png", coordinates: "")
+
+s9 = Sticker.create(name: "anchor", category: "earth", image_url: "https://live.staticflickr.com/65535/51500874015_becbbe1998_o.png", coordinates: "")
+
+puts "...quotes..."
+q4 = Quote.create(paragraph: "Climb mountains not so the world can see you, but so you can see the world", category: "earth")
+q5 = Quote.create(paragraph: "The best view comes after the hardest climb", category: "earth")
+q6 = Quote.create(paragraph: "Every mountain top is within reach if you just keep climbing", category: "earth")
+
+
 
 puts "Done! Success"
