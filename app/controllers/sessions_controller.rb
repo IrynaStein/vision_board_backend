@@ -7,11 +7,13 @@ class SessionsController < ApplicationController
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
     #   byebug
-    water_quote = Quote.where('init=?', true).where('category=?', "water").order('RANDOM()').first
-    earth_quote = Quote.where('init=?', true).where('category=?', "earth").order('RANDOM()').first
-      render json: {user: user, quotes: [water_quote, earth_quote]}, status: 200
+    quotes = %w[water earth].map{|q| Quote.where('init=?', true).where('category=?', q).order('RANDOM()').first}
+    render json: { 
+      user: UserSerializer.new(user), 
+      quotes: quotes.map{|quo| QuoteSerializer.new(quo)}
+      }, 
+      status: 200
     else
-        # byebug
       render json: { errors: ['Invalid username or password'] }, status: :unauthorized
     end
   end

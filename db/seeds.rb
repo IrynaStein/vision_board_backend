@@ -43,9 +43,17 @@ q1a = Quote.create(paragraph: "Test quote for false init attribute", category: "
 
 puts "SEEDING EARTH ASSETS..."
 puts "...seeding stickers..."
-s8 = Sticker.create(name: "nautical_star", category: "earth", image_url: "https://live.staticflickr.com/65535/51500874000_c9cae1a074_o.png", coordinates: "")
+s8 = Sticker.create(name: "mountain", category: "earth", image_url: "https://live.staticflickr.com/65535/51507821861_cc524c837d_o.png", coordinates: "")
 
-s9 = Sticker.create(name: "anchor", category: "earth", image_url: "https://live.staticflickr.com/65535/51500874015_becbbe1998_o.png", coordinates: "")
+s9 = Sticker.create(name: "leaf", category: "earth", image_url: "https://live.staticflickr.com/65535/51508747110_760e1427ee_o.png", coordinates: "")
+
+s10 = Sticker.create(name: "hibiscus", category: "earth", image_url: "https://live.staticflickr.com/65535/51508045158_9d187f8fb5_o.png", coordinates: "")
+
+s11 = Sticker.create(name: "ficus", category: "earth", image_url: "https://live.staticflickr.com/65535/51508045193_1398d97739_o.png", coordinates: "")
+
+s12 = Sticker.create(name: "branch", category: "earth", image_url: "https://live.staticflickr.com/65535/51508045223_d0477841ed_o.png", coordinates: "")
+
+s13 = Sticker.create(name: "earth-spiral", category: "earth", image_url: "https://live.staticflickr.com/65535/51507821946_e12d1845dc_o.png", coordinates: "")
 
 puts "...quotes..."
 q4 = Quote.create(paragraph: "Climb mountains not so the world can see you, but so you can see the world", category: "earth", init: true)

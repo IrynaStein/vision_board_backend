@@ -10,9 +10,15 @@ class BoardsController < ApplicationController
     render json: {board: board, assets: {stickers: stickers}}, status: 200
   end
 
+  def update 
+    board = Board.find_by(id: params[:id])
+    board.update(board_params)
+    render json: board, status: 200
+  end
+
   private
 
   def board_params
-    params.permit(:name, :category, :user_id, :quote_id)
+    params.permit(:name, :category, :user_id, :quote_id, :id)
   end
 end

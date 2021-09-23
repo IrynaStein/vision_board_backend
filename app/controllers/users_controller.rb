@@ -4,19 +4,17 @@ class UsersController < ApplicationController
   def show
     # byebug
     user = User.find_by(id: session[:user_id])
-    water_quote = Quote.where('init=?', true).where('category=?', 'water').order('RANDOM()').first
-    earth_quote = Quote.where('init=?', true).where('category=?', 'earth').order('RANDOM()').first
-    # byebug
-    render json: { user: user, quotes: [water_quote, earth_quote] }, status: 200
-    # render json: user, status: 200
+    quotes = %w[water earth].map{|q| Quote.where('init=?', true).where('category=?', q).order('RANDOM()').first}
+    render json: { user: UserSerializer.new(user), quotes: quotes.map{|quo| QuoteSerializer.new(quo)}}, status: 200
+
+
   end
 
   def create
     user = User.create!(user_params)
     session[:user_id] = user.id
-    water_quote = Quote.where('init=?', true).where('category=?', 'water').order('RANDOM()').first
-    earth_quote = Quote.where('init=?', true).where('category=?', 'earth').order('RANDOM()').first
-    render json: { user: user, quotes: [water_quote, earth_quote] }, status: 200
+    quotes = %w[water earth].map{|q| Quote.where('init=?', true).where('category=?', q).order('RANDOM()').first}
+    render json: { user: UserSerializer.new(user), quotes: quotes.map{|quo| QuoteSerializer.new(quo)}}, status: 200
   end
 
   private
