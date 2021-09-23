@@ -6,7 +6,9 @@ class UsersController < ApplicationController
     user = User.find_by(id: session[:user_id])
     water_quote = Quote.where('init=?', true).where('category=?', 'water').order('RANDOM()').first
     earth_quote = Quote.where('init=?', true).where('category=?', 'earth').order('RANDOM()').first
+    # byebug
     render json: { user: user, quotes: [water_quote, earth_quote] }, status: 200
+    # render json: user, status: 200
   end
 
   def create
