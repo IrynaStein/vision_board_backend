@@ -9,7 +9,7 @@ class BoardsController < ApplicationController
       board.set_name(board_params)
       # board.set_quote(board_params)
       board.save!
-      render json: { board: board, assets: { stickers: stickers } }, status: 200
+      render json: board, status: 200
     end
   end
 
