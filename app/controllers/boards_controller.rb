@@ -7,6 +7,7 @@ class BoardsController < ApplicationController
       stickers = Sticker.where('category=?', board_params[:category])
       board = user.boards.build(board_params)
       board.set_name(board_params)
+      board.stickers = stickers
       # board.set_quote(board_params)
       board.save!
       render json: board, status: 200
@@ -14,14 +15,17 @@ class BoardsController < ApplicationController
   end
 
   def update
+    # byebug
     board = Board.find_by(id: params[:id])
+    # byebug
     board.update(board_params)
+    # byebug
     render json: board, status: 200
   end
 
   private
 
   def board_params
-    params.permit(:name, :category, :user_id, :quote_id, :id)
+    params.permit(:name, :category, :user_id, :quote_id, :id, :image)
   end
 end
