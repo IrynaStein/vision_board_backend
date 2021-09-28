@@ -7,7 +7,9 @@ class Board < ApplicationRecord
     has_many :frames, through: :board_frames
     belongs_to :quote, optional: true
     belongs_to :user
-    
+
+    has_one_attached :image, dependent: :destroy
+
     validates :category, inclusion: {in: %w[water air earth fire]}
 
     def set_name(board_params)
