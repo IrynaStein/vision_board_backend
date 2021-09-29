@@ -26,6 +26,6 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    params.permit(:name, :category, :user_id, :quote_id, :id, :image)
+    params.permit(:name, :category, :user_id, :quote_id, :id, images: [])
   end
 end

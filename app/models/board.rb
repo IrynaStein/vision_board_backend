@@ -8,7 +8,7 @@ class Board < ApplicationRecord
     belongs_to :quote, optional: true
     belongs_to :user
 
-    has_one_attached :image, dependent: :destroy
+    has_many_attached :images, dependent: :destroy
 
     validates :category, inclusion: {in: %w[water air earth fire]}
 

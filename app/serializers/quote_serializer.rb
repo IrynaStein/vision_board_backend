@@ -1,4 +1,4 @@
 class QuoteSerializer < ActiveModel::Serializer
-  attributes :id, :paragraph, :category
+  attributes :id, :paragraph, :category, :coordinates
 
 end
