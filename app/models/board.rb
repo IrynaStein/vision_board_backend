@@ -21,23 +21,58 @@ class Board < ApplicationRecord
   #     self.quote = Quote.where("category=?", board_params[:category]).first
   # end
 
+  def update_attachement_coordinates(params)
+    byebug
+    updated_images = params.map{|par| 
+        updated = ActiveStorageAttachment.find_by(id: par[:id])
+        updated.update(coordinates: par[:coordinates])
+    }
+   end
+
   def full_update(params)
     board = Board.find_by(id: params[:id])
-    byebug
-    board.update(
-      board.name = params[:name],
-      board.category = params[:category],
-      board.stickers = params[:stickers].map do |post|
-        Sticker.update(paragraph: post.paragraph, category: post.category, coordinates: post.coordinates)
-      end,
-      board.quote = params.quote,
-      if board.posts.length > 0
-        board.posts = params.posts.map do |post|
-          Post.create(paragraph: post.paragraph, category: post.category, coordinates: post.coordinates)
-        end
+
+    board.update(name: params[:name])
+
+    unless params[:category].nil? then 
+    board.update(category: params[:category])  
+    end
+#try return unless
+   unless params[:stickers].nil? then
+    #   updated_stickers = board.stickers = params[:stickers].map do |sticker|
+        updated_stickers = params[:stickers].map do |sticker|
+        sticker_to_update = Sticker.find_by(id: sticker[:id])
+        sticker_to_update.update(coordinates: sticker[:coordinates])
+        sticker_to_update
       end
-    )
+      board.update(stickers: updated_stickers)
+    else 
+       board.stickers 
+    end
+# byebug
+    unless params[:quote].nil? then 
+        quote = Quote.find_by(id: params[:quote][:id])
+        board.quote.update(params[:quote])
+    end
+
+    unless params[:posts].nil? then
+      board.posts = params[:posts].map do |post|
+        Post.create(paragraph: post[:paragraph], category: post[:category], coordinates: post[:coordinates])
+      end
+    end
+    
+    #helper to save image coordinates
+    # unless params[:pictures].nil? then
+    #     frames = params[:picture].each do |picture|
+    #         Frame.create(id: picture[:id], coordinates: picture[:coordinates])
+    #     end
+        
+    # end
+  board
   end
+
+ 
+  
 end
 
 # t.text "paragraph"
