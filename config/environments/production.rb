@@ -56,6 +56,10 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "vision_board_backend_production"
 
   config.action_mailer.perform_caching = false
+
+  #so the new upload doesnt overwrite the existing images. Default to {true} in want to disable the feature
+  config.active_storage.replace_on_assign_to_many = false
+  
   config.action_mailer.default_url_options = { host: 'localhost:3000' } 
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
   # Ignore bad email addresses and do not raise email delivery errors.

@@ -8,24 +8,42 @@ class BoardsController < ApplicationController
       board = user.boards.build(board_params)
       board.set_name(board_params)
       board.stickers = stickers
-      # board.set_quote(board_params)
       board.save!
       render json: board, status: 200
     end
   end
 
   def update
-    # byebug
     board = Board.find_by(id: params[:id])
-    # byebug
-    board.update(board_params)
-    # byebug
-    render json: board, status: 200
+   
+    updated_board = board.full_update(board_params)
+
+   unless board_params[:images].nil? || board_params[:pictures].nil?
+    unless board_params[:images].nil? then 
+    board_params[:images].each do |image| updated_board.images.attach(image) 
+    end
+     else updated_board.update_attachement_coordinates(params[:pictures])
+    end
+  end
+
+    render json: updated_board, status: 200
   end
 
   private
 
   def board_params
-    params.permit(:name, :category, :user_id, :quote_id, :id, :image)
+    params.permit(
+      :name, 
+      :category, 
+      :user_id, 
+      :quote_id, 
+      :id, 
+      :posts => [:id, :paragraph, :category, :coordinates],
+      quote: {}, 
+      :stickers => [:id, :name, :category, :image_url, :coordinates], 
+      :pictures=> [:id, :coordinates], 
+      images: []
+    )
   end
 end
+
