@@ -31,9 +31,9 @@ class Board < ApplicationRecord
 
   def full_update(params)
     board = Board.find_by(id: params[:id])
-
+    unless params[:name].nil?
     board.update(name: params[:name])
-
+    end
     board.update(category: params[:category]) unless params[:category].nil?
 
     if params[:stickers].nil?
