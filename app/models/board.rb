@@ -23,61 +23,40 @@ class Board < ApplicationRecord
 
   def update_attachement_coordinates(params)
     byebug
-    updated_images = params.map{|par| 
-        updated = ActiveStorageAttachment.find_by(id: par[:id])
-        updated.update(coordinates: par[:coordinates])
-    }
-   end
+    updated_images = params.map do |par|
+      updated = ActiveStorageAttachment.find_by(id: par[:id])
+      updated.update(coordinates: par[:coordinates])
+    end
+  end
 
   def full_update(params)
     board = Board.find_by(id: params[:id])
-
+    unless params[:name].nil?
     board.update(name: params[:name])
-
-    unless params[:category].nil? then 
-    board.update(category: params[:category])  
     end
-#try return unless
-   unless params[:stickers].nil? then
-    #   updated_stickers = board.stickers = params[:stickers].map do |sticker|
-        updated_stickers = params[:stickers].map do |sticker|
-        sticker_to_update = Sticker.find_by(id: sticker[:id])
+    board.update(category: params[:category]) unless params[:category].nil?
+
+    if params[:stickers].nil?
+      board.stickers
+    else
+      updated_stickers = params[:stickers].map do |sticker|
+        sticker_to_update = board.stickers.find_by(id: sticker[:id])
         sticker_to_update.update(coordinates: sticker[:coordinates])
         sticker_to_update
       end
       board.update(stickers: updated_stickers)
-    else 
-       board.stickers 
     end
-# byebug
-    unless params[:quote].nil? then 
-        quote = Quote.find_by(id: params[:quote][:id])
-        board.quote.update(params[:quote])
+    # byebug
+    unless params[:quote].nil?
+      quote = Quote.find_by(id: params[:quote][:id])
+      board.quote.update(params[:quote])
     end
 
-    unless params[:posts].nil? then
+    unless params[:posts].nil?
       board.posts = params[:posts].map do |post|
         Post.create(paragraph: post[:paragraph], category: post[:category], coordinates: post[:coordinates])
       end
     end
-    
-    #helper to save image coordinates
-    # unless params[:pictures].nil? then
-    #     frames = params[:picture].each do |picture|
-    #         Frame.create(id: picture[:id], coordinates: picture[:coordinates])
-    #     end
-        
-    # end
-  board
+    board
   end
-
- 
-  
 end
-
-# t.text "paragraph"
-# t.string "category"
-# t.datetime "created_at", precision: 6, null: false
-# t.datetime "updated_at", precision: 6, null: false
-# t.boolean "init"
-# t.string "coordinates"
