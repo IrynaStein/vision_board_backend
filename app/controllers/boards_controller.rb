@@ -9,6 +9,10 @@ class BoardsController < ApplicationController
       board.set_name(board_params)
       board.stickers = stickers
       # board.set_quote(board_params)
+      # if board.images.nil?
+      #   board.images = []
+      # end
+      # debugger
       board.save!
       render json: board, status: 200
     end
@@ -17,15 +21,17 @@ class BoardsController < ApplicationController
   def update
     # byebug
     board = Board.find_by(id: params[:id])
-    # byebug
-    board.update(board_params)
-    # byebug
+    byebug
+    # board.update(board_params)
+    board.full_update(board_params)
+    byebug
     render json: board, status: 200
   end
 
   private
 
   def board_params
-    params.permit(:name, :category, :user_id, :quote_id, :id, images: [])
+    params.permit(:name, :category, :user_id, :quote_id, :id, :quote, :stickers, :pictures, :posts, images: [])
   end
 end
+

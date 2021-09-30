@@ -12,8 +12,8 @@ class BoardSerializer < ActiveModel::Serializer
 
     object.images.map do |image|
       image.blob.attributes
-           .slice('filename', 'byte_size', 'id')
-           .merge(url: image_url(image))
+           .slice('filename', 'byte_size', 'id', 'coordinates')
+           .merge(url: image_url(image), coordinates: create_coordinates(image))
     end
   end
 
@@ -21,4 +21,13 @@ class BoardSerializer < ActiveModel::Serializer
     # rails_blob_path(image, only_path: true)
     url_for(image)
   end
+
+  def create_coordinates(image)
+    byebug
+    if image.coordinates.nil?
+    image.coordinates="x:0, y:0"
+    else image.coordinates
+    end
+  end
+ 
 end
