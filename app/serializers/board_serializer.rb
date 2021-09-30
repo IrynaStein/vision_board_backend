@@ -8,7 +8,6 @@ class BoardSerializer < ActiveModel::Serializer
   has_one :quote
 
   def images
-#  byebug
     return unless object.images.attached?
 
     object.images.map do |image|
@@ -24,15 +23,10 @@ class BoardSerializer < ActiveModel::Serializer
   end
 
   def create_coordinates(image)
-    byebug
     if image.coordinates.nil?
     image.coordinates= "x:0, y:0"
     else image.coordinates
     end
   end
-
-  # def build_coordinates(pictures)
- 
-  # end
  
 end
