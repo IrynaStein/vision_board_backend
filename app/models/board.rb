@@ -22,7 +22,6 @@ class Board < ApplicationRecord
   # end
 
   def update_attachement_coordinates(params)
-    byebug
     updated_images = params.map do |par|
       updated = ActiveStorageAttachment.find_by(id: par[:id])
       updated.update(coordinates: par[:coordinates])
@@ -35,7 +34,6 @@ class Board < ApplicationRecord
     board.update(name: params[:name])
     end
     board.update(category: params[:category]) unless params[:category].nil?
-
     if params[:stickers].nil?
       board.stickers
     else

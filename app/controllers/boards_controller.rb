@@ -4,10 +4,18 @@ class BoardsController < ApplicationController
     if user.boards.where('category=?', board_params[:category]).exists?
        render json: { errors: 'Seems like you already have a board in this category. Please chose a different category or delete existing board' }, status: :unprocessable_entity 
     else
-      stickers = Sticker.where('category=?', board_params[:category])
+      stickers = Sticker.where("init=?", true).where('category=?', board_params[:category])
+      # byebug
+      board_stickers = stickers.map {|sticker| 
+        Sticker.create(name: sticker[:name], category: sticker[:category], coordinates: "x: 0, y: 0", image_url: sticker[:image_url], init: false)
+      }
+      quote = Quote.find_by(id: board_params[:quote_id])
+      board_quote = Quote.create(paragraph: quote.paragraph, category: quote.category, init: false, coordinates: "x: 0, y: 0")
+      # byebug
       board = user.boards.build(board_params)
       board.set_name(board_params)
-      board.stickers = stickers
+      board.stickers = board_stickers
+      board.quote = board_quote
       board.save!
       render json: board, status: 200
     end
@@ -21,7 +29,6 @@ class BoardsController < ApplicationController
   if board_params[:images].nil? && board_params[:pictures].nil? 
     render json: updated_board, status: 200
   else 
-    byebug
     unless board_params[:images].nil? then 
       board_params[:images].each do |image| updated_board.images.attach(image) 
       end
@@ -29,6 +36,12 @@ class BoardsController < ApplicationController
       end
       render json: updated_board, status: 200
   end 
+  end
+
+  def destroy 
+    board = Board.find_by(id: board_params[:id])
+    board.delete
+    render json: {board: board, message: "Your board was successfully deleted"}, status: 200
   end
 
   private
