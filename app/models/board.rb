@@ -21,12 +21,12 @@ class Board < ApplicationRecord
   #     self.quote = Quote.where("category=?", board_params[:category]).first
   # end
 
-  def update_attachement_coordinates(params)
-    updated_images = params.map do |par|
-      updated = ActiveStorageAttachment.find_by(id: par[:id])
-      updated.update(coordinates: par[:coordinates])
-    end
-  end
+  # def update_attachement_coordinates(params)
+  #   updated_images = params.map do |par|
+  #     updated = ActiveStorageAttachment.find_by(id: par[:id])
+  #     updated.update(coordinates: par[:coordinates])
+  #   end
+  # end
 
   def full_update(params)
     board = Board.find_by(id: params[:id])
@@ -34,9 +34,11 @@ class Board < ApplicationRecord
     board.update(name: params[:name])
     end
     board.update(category: params[:category]) unless params[:category].nil?
+
     if params[:stickers].nil?
       board.stickers
     else
+      # byebug
       updated_stickers = params[:stickers].map do |sticker|
         sticker_to_update = board.stickers.find_by(id: sticker[:id])
         sticker_to_update.update(coordinates: sticker[:coordinates])
@@ -50,11 +52,37 @@ class Board < ApplicationRecord
       board.quote.update(params[:quote])
     end
 
-    unless params[:posts].nil?
-      board.posts = params[:posts].map do |post|
-        Post.create(paragraph: post[:paragraph], category: post[:category], coordinates: post[:coordinates])
+    if params[:posts].nil?
+      board.posts
+    else 
+      updated_posts = params[:posts].map do |post|
+        existing_post = board.posts.find_by(id: post[:id])
+        if existing_post.nil?
+          board.posts.create(paragraph: post[:paragraph], category: post[:category], coordinates: post[:coordinates])
+        else 
+          existing_post.update(coordinates: post[:coordinates])
+          existing_post
+        end
       end
+      board.update(posts: updated_posts)
+    end
+
+    if params[:frames].nil?
+      board.frames 
+    else 
+      updated_frames = params[:frames].map do |frame|
+        existing_frame = board.frames.find_by(id: frame[:id])
+        if existing_frame.nil?
+          board.frames.create(filename: frame[:filename], url: frame[:url], coordinates: frame[:coordinates], old_id: frame[:id], byte_size: frame[:byte_size])
+        else 
+          existing_frame.update(coordinates: frame[:coordinates])
+          existing_frame
+        end
+      end
+      board.update(frames: updated_frames)
     end
     board
   end
+
 end
+
