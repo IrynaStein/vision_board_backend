@@ -9,7 +9,6 @@ class BoardSerializer < ActiveModel::Serializer
 
   def images
     return unless object.images.attached?
-
     object.images.map do |image|
       image.blob.attributes
            .slice('filename', 'byte_size', 'id', 'coordinates')
