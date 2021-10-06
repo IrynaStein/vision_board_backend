@@ -7,11 +7,11 @@ class BoardsController < ApplicationController
       stickers = Sticker.where("init=?", true).where('category=?', board_params[:category])
    #re-write to create stickers with pre-seeded initial coordinates
       board_stickers = stickers.map {|sticker| 
-        Sticker.create(name: sticker[:name], category: sticker[:category], coordinates: "x: 0, y: 0", image_url: sticker[:image_url], init: false)
+        Sticker.create(name: sticker[:name], category: sticker[:category], coordinates: sticker[:coordinates], image_url: sticker[:image_url], init: false)
       }
 
       quote = Quote.find_by(id: board_params[:quote_id])
-      board_quote = Quote.create(paragraph: quote.paragraph, category: quote.category, init: false, coordinates: "x: 0, y: 0")
+      board_quote = Quote.create(paragraph: quote.paragraph, category: quote.category, init: false, coordinates: "x: 50, y: -3")
    
       board = user.boards.build(board_params)
       board.set_name(board_params)
