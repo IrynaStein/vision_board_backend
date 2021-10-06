@@ -5,10 +5,11 @@ class BoardsController < ApplicationController
        render json: { errors: 'Seems like you already have a board in this category. Please chose a different category or delete existing board' }, status: :unprocessable_entity 
     else
       stickers = Sticker.where("init=?", true).where('category=?', board_params[:category])
-   
+   #re-write to create stickers with pre-seeded initial coordinates
       board_stickers = stickers.map {|sticker| 
         Sticker.create(name: sticker[:name], category: sticker[:category], coordinates: "x: 0, y: 0", image_url: sticker[:image_url], init: false)
       }
+
       quote = Quote.find_by(id: board_params[:quote_id])
       board_quote = Quote.create(paragraph: quote.paragraph, category: quote.category, init: false, coordinates: "x: 0, y: 0")
    
