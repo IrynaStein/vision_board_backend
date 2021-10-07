@@ -14,15 +14,18 @@ class BoardsController < ApplicationController
       board_quote = Quote.create(paragraph: quote.paragraph, category: quote.category, init: false, coordinates: "x: 50, y: -3")
    
       board = user.boards.build(board_params)
+      # byebug
       board.set_name(board_params)
       board.stickers = board_stickers
       board.quote = board_quote
+      # byebug
       board.save!
       render json: board, status: 200
     end
   end
 
   def update
+    byebug
     board = Board.find_by(id: params[:id])
     updated_board = board.full_update(board_params)
 
@@ -55,9 +58,9 @@ class BoardsController < ApplicationController
       :name, 
       :category, 
       :user_id, 
-      :quote_id, 
+      :quote_id,
       :id, 
-      :frames => [:filename, :byte_size, :id, :url, :coordinates, :old_id],
+      :frames => [:filename, :byte_size, :id, :url, :coordinates, :old_id, :size, :category],
       :posts => [:id, :paragraph, :category, :coordinates],
       quote: {}, 
       :stickers => [:id, :name, :category, :image_url, :coordinates, :init],  
