@@ -1,11 +1,11 @@
 class Board < ApplicationRecord
-  has_many :board_stickers
-  has_many :board_posts
-  has_many :board_frames
-  has_many :stickers, through: :board_stickers
-  has_many :posts, through: :board_posts
-  has_many :frames, through: :board_frames
-  belongs_to :quote, optional: true
+  has_many :board_stickers, dependent: :destroy
+  has_many :board_posts, dependent: :destroy
+  has_many :board_frames, dependent: :destroy
+  has_many :stickers, through: :board_stickers, dependent: :destroy
+  has_many :posts, through: :board_posts, dependent: :destroy
+  has_many :frames, through: :board_frames, dependent: :destroy
+  has_one :quote, dependent: :destroy
   belongs_to :user
 
   has_many_attached :images, dependent: :destroy
@@ -63,7 +63,7 @@ class Board < ApplicationRecord
         board.quote.update(coordinates: params[:quote][:coordinates])
       end
       # byebug
-      # board.quote
+      board.quote
     end
 
 
@@ -109,15 +109,14 @@ class Board < ApplicationRecord
       end
       board.update(posts: updated_posts)
     end
-
     if params[:frames].nil?
       board.frames 
     else 
       updated_frames = params[:frames].map do |frame|
         existing_frame = board.frames.find_by(id: frame[:id])
         if existing_frame.nil?
-          board.frames.create(filename: frame[:filename], url: frame[:url], coordinates: frame[:coordinates], old_id: frame[:id], byte_size: frame[:byte_size])
-        else 
+          board.frames.create!(filename: frame[:filename], url: frame[:url], coordinates: frame[:coordinates], old_id: frame[:id], byte_size: frame[:byte_size])
+        else
           existing_frame.update(coordinates: frame[:coordinates])
           existing_frame
         end

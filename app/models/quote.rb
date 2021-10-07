@@ -1,3 +1,3 @@
 class Quote < ApplicationRecord
-    has_many :boards
+    belongs_to :board, optional: true
 end

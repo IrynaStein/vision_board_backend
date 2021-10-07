@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_06_222405) do
+ActiveRecord::Schema.define(version: 2021_10_07_170928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,8 +77,6 @@ ActiveRecord::Schema.define(version: 2021_10_06_222405) do
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "quote_id"
-    t.index ["quote_id"], name: "index_boards_on_quote_id"
     t.index ["user_id"], name: "index_boards_on_user_id"
   end
 
@@ -110,6 +108,8 @@ ActiveRecord::Schema.define(version: 2021_10_06_222405) do
     t.boolean "init"
     t.string "coordinates"
     t.string "author"
+    t.bigint "board_id"
+    t.index ["board_id"], name: "index_quotes_on_board_id"
   end
 
   create_table "stickers", force: :cascade do |t|
@@ -133,5 +133,5 @@ ActiveRecord::Schema.define(version: 2021_10_06_222405) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "boards", "quotes"
+  add_foreign_key "quotes", "boards"
 end
