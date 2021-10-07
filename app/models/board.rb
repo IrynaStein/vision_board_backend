@@ -48,9 +48,52 @@ class Board < ApplicationRecord
     end
     # byebug
     unless params[:quote].nil?
-      quote = Quote.find_by(id: params[:quote][:id])
-      board.quote.update(params[:quote])
+      quote = Quote.find_by(id: params[:quote][:id], init: false)
+      # byebug
+      if quote.nil?
+        new_quote = Quote.create({
+          paragraph: params[:quote][:paragraph],
+          category: params[:quote][:category],
+          author: params[:quote][:author],
+          coordinates: params[:quote][:coordinates],
+          init: false
+        })
+        board.update(quote: new_quote)
+      else 
+        board.quote.update(coordinates: params[:quote][:coordinates])
+      end
+      # byebug
+      # board.quote
     end
+
+
+    # if params[:quote].nil? || params[:quote] == ""
+    #   # byebug
+    #   board.quote.destroy
+    # else 
+    #   quote = Quote.find_by(id: params[:quote][:id], init: false)
+    #   # byebug
+    #   if quote.nil?
+    #     new_quote = Quote.create({
+    #       paragraph: params[:quote][:paragraph],
+    #       category: params[:quote][:category],
+    #       author: params[:quote][:author],
+    #       coordinates: params[:quote][:coordinates],
+    #       init: false
+    #     })
+    #     board.update(quote: new_quote)
+    #   else 
+    #     board.quote.update(coordinates: params[:quote][:coordinates])
+    #   end
+    # end
+   
+
+
+
+
+
+
+
 
     if params[:posts].nil?
       board.posts
