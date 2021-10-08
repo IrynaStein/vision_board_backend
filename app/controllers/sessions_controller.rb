@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
     #   byebug
-    quotes = %w[water earth].map{|q| Quote.where('init=?', true).where('category=?', q).order('RANDOM()').first}
+    quotes = %w[water earth air fire].map{|q| Quote.where('init=?', true).where('category=?', q).order('RANDOM()').first}
     render json: { 
       user: UserSerializer.new(user), 
       quotes: quotes.map{|quo| QuoteSerializer.new(quo)}
